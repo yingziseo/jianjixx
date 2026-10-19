@@ -1,0 +1,6 @@
+materials/
+renders/
+.work/
+node_modules/
+package*.json
+__pycache__/

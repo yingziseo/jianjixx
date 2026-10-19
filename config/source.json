@@ -1,0 +1,27 @@
+{
+  "feishu": {
+    "url": "https://my.feishu.cn/base/Kt9sbkxnBaf3zzs8qLAcK04xnKc?table=tblTIArpSSJiqBzM&view=vew7hcxGmD",
+    "base": "Kt9sbkxnBaf3zzs8qLAcK04xnKc",
+    "table": "tblTIArpSSJiqBzM",
+    "fields": {
+      "model": "头盔型号",
+      "attachment": "素材附件",
+      "title": "文件名",
+      "review": "审核状态",
+      "plays": "播放量",
+      "kind": "一级类型"
+    }
+  },
+  "models": {
+    "FF352-2": "R1-PRO",
+    "R18": "R18",
+    "507-1": "Movelck",
+    "FF357": "Mad-Shark",
+    "FF358": "VORTEX",
+    "A128": "THUNDER"
+  },
+  "photographers": {
+    "西": "xi",
+    "李": "li"
+  }
+}
