@@ -1,27 +1,117 @@
 {
   "model": "R1-PRO",
-  "version": "v3",
-  "music": {"file": "assets/music/Mixkit_Daredevil.mp3", "start": 15.51, "bpm": 124},
-  "cover": {"clip": "R1pro-1014-5-xi.mp4", "time": 3.4, "beats": 2, "kicker": "SPORT-INSPIRED FULL FACE", "title": "R1-PRO"},
+  "version": "v4",
+  "music": {
+    "file": "assets/music/Mixkit_Daredevil.mp3",
+    "start": 15.51,
+    "bpm": 124
+  },
+  "cover": {
+    "clip": "R1pro-1014-5-xi.mp4",
+    "time": 3.4,
+    "beats": 2,
+    "kicker": "SPORT-INSPIRED FULL FACE",
+    "title": "R1-PRO"
+  },
   "texts": {
-    "title": ["CYRIL · SPORT-INSPIRED FULL FACE", "R1-PRO"],
-    "spoiler": ["PRONOUNCED", "REAR SPOILER"],
-    "visor": ["MAGNETIC", "QUICK-RELEASE VISOR"],
-    "buckle": ["ADJUSTABLE", "STEEL BUCKLE"],
-    "graphics": ["SHADOW ARMOR", "GRAPHICS"],
-    "dot": ["MEETS DOT", "FMVSS 218"]
+    "title": [
+      "CYRIL · SPORT-INSPIRED FULL FACE",
+      "R1-PRO"
+    ],
+    "spoiler": [
+      "PRONOUNCED",
+      "REAR SPOILER"
+    ],
+    "visor": [
+      "MAGNETIC",
+      "QUICK-RELEASE VISOR"
+    ],
+    "buckle": [
+      "ADJUSTABLE",
+      "STEEL BUCKLE"
+    ],
+    "graphics": [
+      "SHADOW ARMOR",
+      "GRAPHICS"
+    ],
+    "dot": [
+      "MEETS DOT",
+      "FMVSS 218"
+    ]
   },
   "segments": [
-    {"clip": "R1pro-1014-10-xi.mp4", "start": 2.2, "beats": 4, "note": "Logo墙前戴上头盔"},
-    {"clip": "R1pro-1014-5-xi.mp4", "start": 0.3, "beats": 8, "text": "title", "note": "彩绘款佩戴长镜头"},
-    {"clip": "R1pro-1014-4-xi.mp4", "start": 0.4, "beats": 3, "text": "spoiler", "note": "后脑尾翼"},
-    {"clip": "R1pro-1014-3-xi.mp4", "start": 21.6, "beats": 4, "text": "spoiler", "note": "侧面轮廓"},
-    {"clip": "R1pro-1014-9-xi.mp4", "start": 4.0, "beats": 8, "text": "visor", "note": "人台演示磁吸拆镜片"},
-    {"clip": "R1pro-1014-4-xi.mp4", "start": 19.2, "beats": 4, "text": "visor", "note": "佩戴时按压镜片底座"},
-    {"clip": "R1pro-1014-5-xi.mp4", "start": 15.0, "beats": 7, "text": "buckle", "note": "扣钢扣"},
-    {"clip": "R1pro-1014-7-xi.mp4", "start": 2.0, "beats": 7, "text": "graphics", "speed": 0.7, "note": "彩绘旋转，放慢"},
-    {"clip": "R1pro-1014-7-xi.mp4", "start": 10.0, "beats": 7, "text": "dot", "note": "DOT标签"},
-    {"clip": "R1pro-1014-10-xi.mp4", "start": 5.0, "beats": 3, "note": "正面佩戴"}
+    {
+      "clip": "R1pro-1014-10-xi.mp4",
+      "start": 2.2,
+      "beats": 4,
+      "note": "Logo墙前戴上头盔"
+    },
+    {
+      "clip": "R1pro-1014-5-xi.mp4",
+      "start": 0.3,
+      "beats": 8,
+      "text": "title",
+      "note": "彩绘款佩戴长镜头"
+    },
+    {
+      "clip": "R1pro-1014-4-xi.mp4",
+      "start": 0.4,
+      "beats": 3,
+      "text": "spoiler",
+      "note": "后脑尾翼"
+    },
+    {
+      "clip": "R1pro-1014-3-xi.mp4",
+      "start": 21.6,
+      "beats": 4,
+      "text": "spoiler",
+      "note": "侧面轮廓"
+    },
+    {
+      "clip": "R1pro-1014-9-xi.mp4",
+      "start": 4.0,
+      "beats": 8,
+      "text": "visor",
+      "note": "人台演示磁吸拆镜片"
+    },
+    {
+      "clip": "R1pro-1014-4-xi.mp4",
+      "start": 19.2,
+      "beats": 4,
+      "text": "visor",
+      "note": "佩戴时按压镜片底座"
+    },
+    {
+      "clip": "R1pro-1014-5-xi.mp4",
+      "start": 15.0,
+      "beats": 7,
+      "text": "buckle",
+      "note": "扣钢扣"
+    },
+    {
+      "clip": "R1pro-1014-7-xi.mp4",
+      "start": 2.0,
+      "beats": 7,
+      "text": "graphics",
+      "speed": 0.7,
+      "note": "彩绘旋转，放慢"
+    },
+    {
+      "clip": "R1pro-1014-7-xi.mp4",
+      "start": 10.0,
+      "beats": 7,
+      "text": "dot",
+      "note": "DOT标签"
+    },
+    {
+      "clip": "R1pro-1014-10-xi.mp4",
+      "start": 5.0,
+      "beats": 3,
+      "note": "正面佩戴"
+    }
   ],
-  "endcard": {"title": "R1-PRO", "beats": 5}
+  "endcard": {
+    "title": "R1-PRO",
+    "beats": 5
+  }
 }
