@@ -1,6 +1,6 @@
 {
   "model": "R18",
-  "version": "v2",
+  "version": "v3",
   "music": {
     "file": "assets/music/Mixkit_Daredevil.mp3",
     "start": 15.51,
@@ -61,11 +61,12 @@
       "note": "翻动透明外面罩"
     },
     {
-      "clip": "R18-1014-4-xi.mp4",
-      "start": 13.0,
+      "clip": "R18-1014-1-xi.mp4",
+      "start": 14.6,
       "beats": 7,
       "text": "sunvisor",
-      "note": "拨动内置墨镜片"
+      "note": "真人佩戴：内墨镜片从收起到推下（15.3–16.0秒），放慢0.85倍",
+      "speed": 0.85
     },
     {
       "clip": "R18-1014-5-xi.mp4",
