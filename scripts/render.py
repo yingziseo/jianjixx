@@ -7,7 +7,7 @@
 #   3. 字幕只写官网已审核的卖点（只写 DOT FMVSS 218，不写 ECE、专利、尾翼提高稳定性）
 #   4. 不用背景杂乱、不符合品牌调性的镜头（如仓库里一堆头盔）
 #   5. 只输出网页版（约 9MB），每个镜头只编码一次，不做高清版再转码
-#   6. 视频第一帧必须是封面（深色背景 + 白色Logo + 大号型号名，极简，不放人物），开头不能从黑场淡入
+#   6. 视频第一帧必须是封面（真人佩戴 + 小Logo + 大标题），开头不能从黑场淡入，否则播放器封面是黑的
 import json, os, subprocess, sys, argparse
 from PIL import Image, ImageDraw
 sys.path.insert(0, os.path.dirname(__file__))
@@ -76,21 +76,28 @@ def end_card():
     p = os.path.join(WORK, "endcard.png"); im.save(p); return p
 
 def cover():
-    """封面：极简风格，和片尾统一——深色背景 + 白色Logo + 大号型号名 + 品类小字（不放人物画面）"""
-    c = P["cover"]
-    im = Image.new("RGB", (1080, 1920), (14, 14, 14)); d = ImageDraw.Draw(im)
-    lg = logo(360); im.paste(lg, ((1080 - 360) // 2, 610), lg)
-    size = 150
-    while True:                                          # 型号名自动缩小，保证不超出画面
+    """封面：真人佩戴画面 + 顶部小Logo + 底部大标题（统一样式）"""
+    c = P["cover"]; frame = os.path.join(WORK, "cover_frame.jpg")
+    run(["ffmpeg", "-v", "error", "-y", "-ss", str(c["time"]), "-i", clip(c["clip"]), "-frames:v", "1", "-vf", VF, frame])
+    im = Image.open(frame).convert("RGBA")
+    im.alpha_composite(shade(420, 0, 120, flip=True), (0, 0))          # 顶部压暗，衬托Logo
+    im.alpha_composite(shade(820, 0, 210), (0, 1100))                  # 底部压暗，衬托标题
+    lg = logo(230); im.alpha_composite(lg, ((1080 - 230) // 2, 96))   # 小Logo居中
+    d = ImageDraw.Draw(im); x0, maxw = 88, 1080 - 88 * 2
+    size = 168
+    while True:
         f = font("bold", size)
-        if wspaced(d, c["title"], f, 10) <= 1080 - 160 or size <= 70: break
+        if wspaced(d, c["title"], f, 4) <= maxw or size <= 80: break
         size -= 4
-    t = c["title"]; spaced(d, ((1080 - wspaced(d, t, f, 10)) / 2, 960), t, f, (255, 255, 255), 10)
-    bottom = 960 + d.textbbox((0, 0), t, font=f)[3]       # 按标题实际高度定位短线和小字
-    d.rectangle([(1080 - 64) // 2, bottom + 44, (1080 + 64) // 2, bottom + 48], fill=(255, 255, 255))
-    f1 = font("medium", 34); t = c["kicker"]
-    spaced(d, ((1080 - wspaced(d, t, f1, 8)) / 2, bottom + 76), t, f1, (190, 190, 190), 8)
-    im.save(COVER, quality=92); return COVER
+    d.rectangle([x0, 1500, x0 + 80, 1507], fill=(255, 255, 255, 255))
+    spaced(d, (x0, 1530), c["kicker"], font("medium", 44), (255, 255, 255, 235), 6)
+    spaced(d, (x0, 1590), c["title"], f, (255, 255, 255, 255), 4)
+    im.convert("RGB").save(COVER, quality=90); return COVER
+
+# 0. 封面：单独输出 JPG，同时作为视频开头的静帧（第一帧就是封面）
+cover()
+cov_dur = P["cover"].get("beats", 2) * BEAT; pc = os.path.join(WORK, "seg00_cover.mp4")
+run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-i", COVER, "-t", f"{cov_dur:.4f}", "-vf", "fps=30,setsar=1", *ENC, pc])
 
 # 0. 封面：单独输出 JPG，同时作为视频开头的静帧（第一帧就是封面）
 cover()
