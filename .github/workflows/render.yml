@@ -3,7 +3,7 @@ name: 剪辑渲染
 # 改了 plans/ 里的镜头表就自动渲染；也可以在 Actions 页面手动运行，填型号（如 R18）或 all
 on:
   push:
-    paths: ["plans/**", "scripts/**", "assets/**", ".github/workflows/render.yml"]
+    paths: ["plans/**", "scripts/**", "assets/**", ".github/workflows/render.yml", "!scripts/meta_ad.py", "!assets/fonts/**", "!assets/music/Mixkit_Techno-Fest-Vibes.*", "!assets/logo/CYRIL_Logo_white.png"]
   workflow_dispatch:
     inputs:
       plans:
