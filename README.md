@@ -59,3 +59,13 @@ assets/           背景音乐（Mixkit Daredevil，124 BPM）、白色 Logo
 - 飞书表“素材总库”：审核状态为“通过”、播放量高的优先
 - 先用 `contact_sheets.py` 生成每秒一帧的缩略图总览，再挑镜头写进镜头表
 - 2026-10-19 统计：R1-PRO 37 条、R18 6 条、Movelck 2 条（素材太少，暂不剪）
+
+## Meta 投流样片（`meta_plans/` + `scripts/meta_ad.py`，工作流“Meta投流样片”）
+
+2026-11-17 新增，和上面的产品视频是两套模板：
+- 9:16、30 秒内；冷灰色调调色（降饱和、暗部偏青、暗角、细颗粒），参考竞品 ILM 投流视频的质感
+- 首帧就是折扣大字（`offer`：小字 `LIMITED TIME` + 大字 `20% OFF`，Inter 字体），第一个镜头结束前淡出
+- 按鼓点切镜头：`assets/music/<曲名>.beats.json` 是事先识别好的每一拍时间，`beats` 填拍数；首镜头 8 拍（约 3.5 秒），其余每镜 4 拍
+- 结尾黑底白色 Logo + 网址；配乐压 4dB + 限幅（Techno Fest Vibes 母带峰值超 0dB，不限幅后半段会爆音）
+- 改 `meta_plans/<名字>.json` 并推送就自动渲染；成片在 Actions 的 Artifacts 下载
+- 飞书同步脚本已补齐 200 条以后的记录（之前只读前 200 条）

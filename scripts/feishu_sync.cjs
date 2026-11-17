@@ -39,6 +39,20 @@ function assetName(title) {
   for (let i = 0; i < 30 && !table; i++) await page.waitForTimeout(1000);
   if (!table) throw new Error('没有读到表格数据（飞书页面结构可能变了）');
 
+  // clientvars 只带前 200 条，其余记录用 records 接口补齐
+  try {
+    const view = (F.url.match(/view=([A-Za-z0-9]+)/) || [])[1] || '';
+    const rest = await page.evaluate(async ({ base, tid, rev, view }) => {
+      const u = `/space/api/v1/bitable/${base}/records?tableId=${tid}&viewId=${view}&tableRev=${rev}&depRev=%7B%7D&viewLazyLoad=true&offset=199&limit=3000&tableID=${tid}&viewID=${view}&removeFmlExtra=true`;
+      const j = await (await fetch(u, { credentials: 'include' })).json();
+      return j?.data?.records || null;
+    }, { base: F.base, tid: F.table, rev: table.meta?.rev, view });
+    if (typeof rest === 'string') {
+      const r = JSON.parse(zlib.gunzipSync(Buffer.from(rest, 'base64')).toString('utf8'));
+      Object.assign(table.recordMap, r.recordMap || {});
+    } else console.error('补齐其余记录：接口没有返回数据，只用前 200 条');
+  } catch (e) { console.error('补齐其余记录失败，只用前 200 条：', e.message); }
+
   const fieldId = {};
   for (const [id, f] of Object.entries(table.fieldMap)) fieldId[f.name] = id;
   const opts = (name) => Object.fromEntries(((table.fieldMap[fieldId[name]] || {}).property?.options || []).map(o => [o.id, o.name]));
@@ -59,7 +73,7 @@ function assetName(title) {
   manifest.sort((x, y) => (x.model + x.asset).localeCompare(y.model + y.asset, 'en', { numeric: true }));
   fs.mkdirSync(OUT, { recursive: true });
   fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
-  console.log(`表格共 ${Object.keys(table.recordMap).length} 条记录，视频 ${manifest.length} 个`);
+  console.log(`表格共 ${Object.keys(table.recordMap).length} 条记录（含补齐），视频 ${manifest.length} 个`);
 
   let done = 0, skipped = 0;
   for (const m of manifest) {
