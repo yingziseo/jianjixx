@@ -1,0 +1,61 @@
+name: Meta投流样片
+
+# 改了 meta_plans/ 里的镜头表就自动渲染改动的那几份；也可手动运行，填 FF357 或 all
+on:
+  push:
+    paths: ["meta_plans/**", "scripts/meta_ad.py", ".github/workflows/meta.yml"]
+  workflow_dispatch:
+    inputs:
+      plans:
+        description: "要渲染的镜头表，逗号分隔（如 FF357），all = 全部"
+        required: true
+        default: "all"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: 安装 ffmpeg、Pillow、Playwright
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg > /dev/null
+          pip install -q pillow
+          npm install --silent --no-save playwright-core@1.47.2
+
+      - name: 决定要渲染哪些镜头表
+        id: pick
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.plans }}" != "all" ]; then
+            LIST=$(echo "${{ inputs.plans }}" | tr ',' ' ')
+          elif [ "${{ github.event_name }}" = "push" ] && git diff --name-only HEAD~1 HEAD | grep -q '^meta_plans/.*\.json$'; then
+            LIST=$(git diff --name-only --diff-filter=AM HEAD~1 HEAD | grep '^meta_plans/.*\.json$' | xargs -n1 basename | sed 's/\.json$//' | tr '\n' ' ')
+          else
+            LIST=$(ls meta_plans/*.json | xargs -n1 basename | sed 's/\.json$//' | tr '\n' ' ')
+          fi
+          echo "list=$LIST" >> "$GITHUB_OUTPUT"
+          echo "本次渲染：$LIST"
+
+      - name: 从飞书下载素材并渲染（素材用完即弃）
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          for P in ${{ steps.pick.outputs.list }}; do
+            MODEL=$(python3 -c "import json;print(json.load(open('meta_plans/$P.json'))['model'])")
+            ASSETS=$(python3 -c "import json;p=json.load(open('meta_plans/$P.json'));print(','.join(sorted({s['clip'] for s in p['segments']})))")
+            echo "== $P：需要 $ASSETS"
+            node scripts/feishu_sync.cjs --out materials --model "$MODEL" --assets "$ASSETS"
+            python3 scripts/meta_ad.py "meta_plans/$P.json" --materials materials --out renders
+          done
+          ls -la renders
+
+      - name: 上传成片（在本次运行页面底部的 Artifacts 下载）
+        uses: actions/upload-artifact@v4
+        with:
+          name: meta-renders-${{ github.run_number }}
+          path: renders/
+          retention-days: 30
