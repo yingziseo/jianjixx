@@ -10,6 +10,7 @@ const opt = (name, fallback = '') => { const i = args.indexOf(name); return i >=
 const OUT = opt('--out', 'materials');
 const ONLY = opt('--model', '');
 const ASSETS = new Set(opt('--assets', '').split(',').map(x => x.trim()).filter(Boolean));   // 只下载这些文件（逗号分隔）
+const SHARD = opt('--shard', '0/1').split('/').map(Number);   // 分片下载：--shard 1/4 = 4 份里的第 2 份
 const EXISTING = new Set(fs.existsSync(opt('--existing', '')) ? fs.readFileSync(opt('--existing'), 'utf8').split('\n').map(s => s.trim()).filter(Boolean) : []);
 const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'config', 'source.json'), 'utf8'));
 const F = cfg.feishu;
@@ -79,6 +80,7 @@ function assetName(title) {
   for (const m of manifest) {
     if (ONLY && m.model !== ONLY) continue;
     if (ASSETS.size && !ASSETS.has(m.asset)) continue;
+    if (SHARD[1] > 1 && (manifest.indexOf(m) % SHARD[1]) !== SHARD[0]) continue;
     if (EXISTING.has(`${m.model}/${m.asset}`)) { skipped++; continue; }
     const dir = path.join(OUT, m.model); fs.mkdirSync(dir, { recursive: true });
     const dest = path.join(dir, m.asset);
