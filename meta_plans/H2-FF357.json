@@ -1,0 +1,101 @@
+{
+ "name": "CYRIL-H2-FF357-16x9",
+ "model": "Mad-Shark",
+ "format": "16:9",
+ "music": {
+  "file": "Mixkit_Techno-Fest-Vibes.mp3",
+  "start": 0.0697
+ },
+ "offer": {
+  "kicker": "LIMITED TIME",
+  "title": "20% OFF"
+ },
+ "segments": [
+  {
+   "clip": "357-1114-4.mp4",
+   "start": 0.3,
+   "beats": 8
+  },
+  {
+   "clip": "357-1016-2.mp4",
+   "start": 4.2,
+   "beats": 4,
+   "pos": "left"
+  },
+  {
+   "clip": "357-1015-8.mp4",
+   "start": 0.5,
+   "beats": 4,
+   "pos": "right"
+  },
+  {
+   "clips": [
+    "357-1019-3.mp4",
+    "357-1015-8.mp4",
+    "357-1016-2.mp4"
+   ],
+   "starts": [
+    0.0,
+    4.5,
+    19.0
+   ],
+   "beats": 4
+  },
+  {
+   "clip": "357-1114-4.mp4",
+   "start": 10.0,
+   "beats": 4
+  },
+  {
+   "clip": "357-1019-3.mp4",
+   "start": 6.0,
+   "beats": 4,
+   "pos": "left"
+  },
+  {
+   "clip": "357-1019-3.mp4",
+   "start": 9.2,
+   "beats": 4,
+   "pos": "right"
+  },
+  {
+   "clip": "357-1027-3.mp4",
+   "start": 15.3,
+   "beats": 4
+  },
+  {
+   "clips": [
+    "357-1015-9.mp4",
+    "357-1019-11.mp4",
+    "357-1027-3.mp4"
+   ],
+   "starts": [
+    11.5,
+    8.0,
+    15.3
+   ],
+   "beats": 4
+  },
+  {
+   "clip": "357-1015-9.mp4",
+   "start": 11.5,
+   "beats": 4,
+   "pos": "left"
+  },
+  {
+   "clip": "357-1019-11.mp4",
+   "start": 8.0,
+   "beats": 4,
+   "pos": "right"
+  },
+  {
+   "clip": "357-1016-2.mp4",
+   "start": 19.0,
+   "beats": 4
+  }
+ ],
+ "endcard": {
+  "beats": 6,
+  "url": "CYRILHELMETS.COM"
+ }
+}

@@ -69,3 +69,10 @@ assets/           背景音乐（Mixkit Daredevil，124 BPM）、白色 Logo
 - 结尾黑底白色 Logo + 网址；配乐压 4dB + 限幅（Techno Fest Vibes 母带峰值超 0dB，不限幅后半段会爆音）
 - 改 `meta_plans/<名字>.json` 并推送就自动渲染；成片在 Actions 的 Artifacts 下载
 - 飞书同步脚本已补齐 200 条以后的记录（之前只读前 200 条）
+
+### 横屏 16:9 版（2026-11-18，Google 优化师建议补横屏素材）
+- 镜头表加 `"format": "16:9"` 即出 1920×1080；`meta_plans/H1–H5-*.json` 是第一批 5 条（R1-PRO 横拍实拍、FF357、R1-PRO 多配色、R18、Movelck）
+- 版式：横拍素材铺满；竖拍素材放竖画面 + 同镜头模糊压暗做背景，`pos` 填 left / center / right（首镜头默认 right，左边放 20% OFF 大字）；`"clips"` + `"starts"` 三条并排 = 三联屏
+- 素材库里只有 8 条横拍（R1-PRO：R1Pro-1114-39、R1pro-1031-9～12、26～28），其余 288 条都是竖拍
+- 没有 `.beats.json` 的配乐按 `music.bpm` 匀速切点（Daredevil 124 BPM，从 15.51 秒起）
+- 工作流“素材总览”（手动运行）：按型号并行下载全部素材，出分辨率清单 + 每秒一帧缩略图，挑镜头用
