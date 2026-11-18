@@ -46,7 +46,7 @@ jobs:
         run: |
           for P in ${{ steps.pick.outputs.list }}; do
             MODEL=$(python3 -c "import json;print(json.load(open('meta_plans/$P.json'))['model'])")
-            ASSETS=$(python3 -c "import json;p=json.load(open('meta_plans/$P.json'));print(','.join(sorted({s['clip'] for s in p['segments']})))")
+            ASSETS=$(python3 -c "import json;p=json.load(open('meta_plans/$P.json'));print(','.join(sorted({c for s in p['segments'] for c in ([s['clip']] if 'clip' in s else s['clips'])})))")
             echo "== $P：需要 $ASSETS"
             node scripts/feishu_sync.cjs --out materials --model "$MODEL" --assets "$ASSETS"
             python3 scripts/meta_ad.py "meta_plans/$P.json" --materials materials --out renders
