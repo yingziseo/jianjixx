@@ -1,0 +1,37 @@
+name: 素材总览
+
+# 手动运行：下载指定型号的全部素材，输出分辨率清单 + 每秒一帧缩略图（挑镜头用，素材本身不上传）
+on:
+  workflow_dispatch:
+    inputs:
+      models:
+        description: "型号，逗号分隔（如 Mad-Shark,R1-PRO）"
+        required: true
+        default: "Mad-Shark,R1-PRO"
+
+jobs:
+  overview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: 安装 ffmpeg、字体、Pillow、Playwright
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-noto-cjk > /dev/null
+          pip install -q pillow
+          npm install --silent --no-save playwright-core@1.47.2
+      - name: 下载素材并生成总览
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          for M in $(echo "${{ inputs.models }}" | tr ',' ' '); do
+            node scripts/feishu_sync.cjs --out materials --model "$M"
+          done
+          python3 scripts/footage_overview.py materials sheets
+          cp materials/manifest.json sheets/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: overview-${{ github.run_number }}
+          path: sheets/
+          retention-days: 14
