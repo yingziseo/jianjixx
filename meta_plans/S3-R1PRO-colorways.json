@@ -12,66 +12,64 @@
  },
  "segments": [
   {
-   "clip": "R1pro-1014-5-xi.mp4",
-   "start": 0.3,
-   "beats": 8
+   "clip": "R1Pro-1114-34.mp4",
+   "start": 9.0,
+   "beats": 8,
+   "y": 0.35
   },
   {
-   "clip": "R1pro-1014-10-xi.mp4",
-   "start": 2.2,
-   "beats": 4
-  },
-  {
-   "clip": "R1pro-1014-4-xi.mp4",
-   "start": 0.4,
-   "beats": 4
-  },
-  {
-   "clips": [
-    "R1pro-1014-5-xi.mp4",
-    "R1pro-1014-7-xi.mp4"
-   ],
-   "starts": [
-    0.3,
-    2.0
-   ],
-   "beats": 4
-  },
-  {
-   "clip": "R1pro-1014-3-xi.mp4",
-   "start": 21.6,
-   "beats": 4
-  },
-  {
-   "clip": "R1pro-1014-9-xi.mp4",
-   "start": 4.0,
-   "beats": 8
-  },
-  {
-   "clip": "R1pro-1014-7-xi.mp4",
+   "clip": "R1Pro-1114-31.mp4",
    "start": 2.0,
-   "beats": 4
+   "beats": 4,
+   "y": 0.3
   },
   {
-   "clip": "R1pro-1014-7-xi.mp4",
-   "start": 10.0,
-   "beats": 4
+   "clip": "R1Pro-1114-28.mp4",
+   "start": 13.0,
+   "beats": 4,
+   "y": 0.3
   },
   {
-   "clips": [
-    "R1pro-1014-3-xi.mp4",
-    "R1pro-1014-4-xi.mp4"
-   ],
-   "starts": [
-    21.6,
-    19.2
-   ],
-   "beats": 4
+   "clip": "R1Pro-1114-26.mp4",
+   "start": 13.0,
+   "beats": 4,
+   "y": 0.35
   },
   {
-   "clip": "R1pro-1014-10-xi.mp4",
-   "start": 5.0,
-   "beats": 4
+   "clip": "R1Pro-1114-6.mp4",
+   "start": 6.0,
+   "beats": 4,
+   "y": 0.35
+  },
+  {
+   "clip": "R1Pro-1114-35.mp4",
+   "start": 12.0,
+   "beats": 8,
+   "y": 0.3
+  },
+  {
+   "clip": "R1pro-1031-19.mp4",
+   "start": 3.0,
+   "beats": 4,
+   "y": 0.35
+  },
+  {
+   "clip": "R1Pro-1114-16.mp4",
+   "start": 13.0,
+   "beats": 4,
+   "y": 0.35
+  },
+  {
+   "clip": "R1pro-1031-23.mp4",
+   "start": 6.0,
+   "beats": 4,
+   "y": 0.3
+  },
+  {
+   "clip": "R1Pro-1114-4.mp4",
+   "start": 13.0,
+   "beats": 4,
+   "y": 0.35
   }
  ],
  "endcard": {
