@@ -1,0 +1,86 @@
+{
+ "name": "CYRIL-S5-Movelck-1x1",
+ "model": "Movelck",
+ "format": "1:1",
+ "music": {
+  "file": "Mixkit_Daredevil.mp3",
+  "start": 15.51,
+  "bpm": 124
+ },
+ "offer": {
+  "kicker": "LIMITED TIME",
+  "title": "20% OFF"
+ },
+ "segments": [
+  {
+   "clip": "507-1015-6.mp4",
+   "start": 1.0,
+   "beats": 8
+  },
+  {
+   "clip": "507-1023-4.mp4",
+   "start": 4.0,
+   "beats": 4
+  },
+  {
+   "clip": "507-1023-4.mp4",
+   "start": 11.0,
+   "beats": 4
+  },
+  {
+   "clips": [
+    "507-1023-14.mp4",
+    "507-1023-5.mp4"
+   ],
+   "starts": [
+    3.5,
+    2.5
+   ],
+   "beats": 4
+  },
+  {
+   "clip": "507-1023-14.mp4",
+   "start": 3.0,
+   "beats": 4
+  },
+  {
+   "clip": "507-1019-7.mp4",
+   "start": 0.5,
+   "beats": 4
+  },
+  {
+   "clip": "507-1023-8.mp4",
+   "start": 8.5,
+   "beats": 4
+  },
+  {
+   "clip": "507-1023-1.mp4",
+   "start": 3.0,
+   "beats": 4
+  },
+  {
+   "clip": "507-1023-1.mp4",
+   "start": 10.0,
+   "beats": 4
+  },
+  {
+   "clip": "507-1019-10.mp4",
+   "start": 13.0,
+   "beats": 4
+  },
+  {
+   "clip": "507-1019-7.mp4",
+   "start": 11.0,
+   "beats": 4
+  },
+  {
+   "clip": "507-1023-3.mp4",
+   "start": 0.0,
+   "beats": 4
+  }
+ ],
+ "endcard": {
+  "beats": 6,
+  "url": "CYRILHELMETS.COM"
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "name": "CYRIL-S1-R1PRO-1x1",
+ "model": "R1-PRO",
+ "format": "1:1",
+ "music": {
+  "file": "Mixkit_Techno-Fest-Vibes.mp3",
+  "start": 0.0697
+ },
+ "offer": {
+  "kicker": "LIMITED TIME",
+  "title": "20% OFF"
+ },
+ "segments": [
+  {
+   "clip": "R1Pro-1114-39.mp4",
+   "start": 13.0,
+   "beats": 8
+  },
+  {
+   "clip": "R1pro-1031-26.mp4",
+   "start": 2.6,
+   "beats": 4
+  },
+  {
+   "clip": "R1Pro-1114-39.mp4",
+   "start": 4.2,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-9.mp4",
+   "start": 7.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-26.mp4",
+   "start": 7.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1Pro-1114-39.mp4",
+   "start": 9.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-27.mp4",
+   "start": 3.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-27.mp4",
+   "start": 5.2,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-28.mp4",
+   "start": 1.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-10.mp4",
+   "start": 10.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-11.mp4",
+   "start": 7.0,
+   "beats": 4
+  },
+  {
+   "clip": "R1pro-1031-12.mp4",
+   "start": 0.0,
+   "beats": 4
+  }
+ ],
+ "endcard": {
+  "beats": 6,
+  "url": "CYRILHELMETS.COM"
+ }
+}

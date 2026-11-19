@@ -1,4 +1,4 @@
-# Meta 投流样片：9:16（或 "format": "16:9" 横屏）、冷调高级感调色、首帧折扣大字（第一个镜头结束前淡出）、按鼓点切镜头、黑底白 Logo 结尾
+# Meta 投流样片：9:16（或 "format": "16:9" 横屏 / "1:1" 正方形）、冷调高级感调色、首帧折扣大字（第一个镜头结束前淡出）、按鼓点切镜头、黑底白 Logo 结尾
 # 用法：python3 scripts/meta_ad.py meta_plans/FF357.json [--materials materials] [--out renders]
 import argparse, json, os, subprocess
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -10,8 +10,8 @@ ap.add_argument("--work", default="work_meta")
 A = ap.parse_args()
 P = json.load(open(A.plan))
 NAME, MODEL = P["name"], P["model"]
-LAND = P.get("format") == "16:9"
-W, H, FPS = (1920, 1080, 30) if LAND else (1080, 1920, 30)
+LAND = P.get("format") == "16:9"; SQ = P.get("format") == "1:1"
+W, H, FPS = (1920, 1080, 30) if LAND else (1080, 1080, 30) if SQ else (1080, 1920, 30)
 WORK = os.path.join(A.work, NAME); os.makedirs(WORK, exist_ok=True); os.makedirs(A.out, exist_ok=True)
 FONT = os.path.join(ROOT, "assets/fonts/Inter-Variable.ttf")
 LOGO = os.path.join(ROOT, "assets/logo/CYRIL_Logo_white.png")
@@ -54,22 +54,23 @@ def offer_png_land(o):
 
 def offer_png(o):
     if LAND: return offer_png_land(o)
+    ky, ty, gy = (330, 590, 820) if SQ else (500, 770, 1150)   # 正方形：字整体上移，压暗渐变到 820
     txt = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(txt)
-    spaced(d, W / 2, 500, o.get("kicker", "LIMITED TIME"), font(40, b"SemiBold"), 16, (255, 255, 255, 240))
-    d.rectangle([W / 2 - 50, 532, W / 2 + 50, 535], fill=(255, 255, 255, 220))
+    spaced(d, W / 2, ky, o.get("kicker", "LIMITED TIME"), font(40, b"SemiBold"), 16, (255, 255, 255, 240))
+    d.rectangle([W / 2 - 50, ky + 32, W / 2 + 50, ky + 35], fill=(255, 255, 255, 220))
     title = o.get("title", "20% OFF"); sz = 220
     while sz > 120 and d.textlength(title, font=font(sz, b"Black")) > W - 120: sz -= 10
-    spaced(d, W / 2, 770, title, font(sz, b"Black"), -8, (255, 255, 255, 255))
+    spaced(d, W / 2, ty, title, font(sz, b"Black"), -8, (255, 255, 255, 255))
     sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     sh.putalpha(txt.getchannel("A").point(lambda a: a * 0.55).filter(ImageFilter.GaussianBlur(18)))
     g = Image.new("L", (1, H))
-    for y in range(H): g.putpixel((0, y), int(140 * max(0, 1 - y / 1150) ** 1.5))
+    for y in range(H): g.putpixel((0, y), int(140 * max(0, 1 - y / gy) ** 1.5))
     out = Image.new("RGBA", (W, H), (0, 0, 0, 255)); out.putalpha(g.resize((W, H)))
     out.alpha_composite(sh); out.alpha_composite(txt)
     p = os.path.join(WORK, "offer.png"); out.save(p); return p
 
 def end_png(e):
-    L = Image.open(LOGO).convert("RGBA"); lw = 560 if LAND else 620; L = L.resize((lw, int(L.height * lw / L.width)), Image.LANCZOS)
+    L = Image.open(LOGO).convert("RGBA"); lw = 560 if LAND else 520 if SQ else 620; L = L.resize((lw, int(L.height * lw / L.width)), Image.LANCZOS)
     im = Image.new("RGBA", (W, H), (0, 0, 0, 255)); im.alpha_composite(L, ((W - lw) // 2, (H - L.height) // 2 - 60))
     spaced(ImageDraw.Draw(im), W / 2, (H + L.height) // 2 + 70, e.get("url", "CYRILHELMETS.COM"), font(34, b"Medium"), 10, (255, 255, 255, 230))
     p = os.path.join(WORK, "end.png"); im.convert("RGB").save(p); return p
@@ -124,12 +125,38 @@ def land_seg(i, s, du, o, offer):
         fc.append("[b]format=yuv420p[v]")
     run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", ";".join(fc), "-map", "[v]", "-an", *ENC, "-t", f"{du:.3f}", o])
 
+def sq_seg(i, s, du, o, offer):
+    """正方形镜头两种版式：
+    - 单镜头：裁成正方形；竖屏素材可用 "y"（0=顶 0.5=中 1=底）指定保留哪一段，默认 0.5
+    - "clips": [2 条] 双联屏：两个竖画面左右并排（每格 540x1080，几乎是完整竖画面），各自的 start 见 "starts"
+    """
+    ins, fc = [], []
+    if s.get("clips"):
+        pw = W // 2
+        for k, (c, st) in enumerate(zip(s["clips"][:2], s["starts"][:2])):
+            ins += ["-ss", str(st), "-t", f"{du:.3f}", "-i", os.path.join(A.materials, MODEL, c)]
+            fc.append(f"[{k}:v]fps={FPS},scale={pw}:{H}:force_original_aspect_ratio=increase,crop={pw}:{H},setsar=1[p{k}]")
+        fc.append(f"[p0][p1]hstack=2,drawbox=x={pw - 2}:y=0:w=4:h={H}:color=black:t=fill,{GRADE}[b]")
+    else:
+        ins += ["-ss", str(s["start"]), "-t", f"{du:.3f}", "-i", os.path.join(A.materials, MODEL, s["clip"])]
+        y = s.get("y", 0.5)
+        fc.append(f"[0:v]fps={FPS},scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H}:(iw-{W})/2:(ih-{H})*{y},setsar=1,{GRADE}[b]")
+    n = len(ins) // 6
+    if offer:
+        ins += ["-loop", "1", "-t", f"{du:.3f}", "-i", offer]
+        fc.append(f"[{n}:v]format=rgba,fade=out:st={du - 0.35:.3f}:d=0.3:alpha=1[ov];[b][ov]overlay=0:0:shortest=1,format=yuv420p[v]")
+    else:
+        fc.append("[b]format=yuv420p[v]")
+    run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", ";".join(fc), "-map", "[v]", "-an", *ENC, "-t", f"{du:.3f}", o])
+
 segs = []
 offer = offer_png(P["offer"]) if P.get("offer") else None
 for i, (s, du) in enumerate(zip(P["segments"], durs)):
     src = os.path.join(A.materials, MODEL, s.get("clip", "")); o = os.path.join(WORK, f"seg{i:02d}.mp4"); segs.append(o)
     if LAND:
         land_seg(i, s, du, o, offer if i == 0 else None)
+    elif SQ:
+        sq_seg(i, s, du, o, offer if i == 0 else None)
     elif i == 0 and offer:
         base = f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS},{GRADE}"
         fc = f"[0:v]{base}[b];[1:v]format=rgba,fade=out:st={du - 0.35:.3f}:d=0.3:alpha=1[ov];[b][ov]overlay=0:0:shortest=1,format=yuv420p[v]"
